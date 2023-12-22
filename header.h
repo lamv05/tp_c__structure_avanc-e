@@ -27,6 +27,6 @@ typedef struct TreeNode
 	struct TreeNode* right;
 }t_treeNode;
 
-t_treeNode newNode(int value);
+t_treeNode* newNode(int value);
 
 void insert(t_treeNode* tree, int value);

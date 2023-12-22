@@ -14,7 +14,7 @@ int main()
 	insertBeginning(&racine,0);
 	//searchNode(&racine,3);
 	//insertMiddle(& racine,13,4);
-	deleteNode(&racine,3);
+	deleteNode(&racine,6);
 	printList(&racine);
 	//free_all(&racine);
 	return 0;
@@ -70,7 +70,7 @@ void deleteNode(t_listnode* node,int value)
 	{
 		t_listnode* to_free =node->next ;
 		node->next=(node->next)->next;
-		free(to_free);
+		//free(to_free);
 	}
 	else if (node->next!=NULL)
 		deleteNode(node->next,value);
@@ -81,7 +81,7 @@ void searchNode(t_listnode* node,int value)
 	while (node->next!=NULL)
 	{
 		if (node->value==value)
-			printf("il y a un nœeud avec la valeur %d\n",value);
+			printf("il existe un nœeud contenant la valeur %d\n",value);
 		node=node->next;
 	}
 }
@@ -95,27 +95,29 @@ void free_all(t_listnode* node)
 
 
 
-t_treeNode newNode(int value)
+t_treeNode* newNode(int value)
 {
-	t_treeNode newNode;
-	newNode.value=value;
-	newNode.left =(struct TreeNode*)malloc(sizeof(struct TreeNode));
-	newNode.right =(struct TreeNode*)malloc(sizeof(struct TreeNode));
-	return newNode;
+	newnode=(struct TreeNode*)malloc(sizeof(struct TreeNode));
+	newnode->value=value;
+	newnode->left =NULL
+	newnode->right =NULL
+	return &newNode;
 }
 
 void insert(t_treeNode* tree, int value)
 {
-	if (tree->left ==NULL && tree->right==NULL)
+	if (tree->value>value)
 	{
-		t_treeNode new = newNode(value);
-		if (tree->value>value)
-			tree->left = &new;
+		if (tree->left==NULL)
+			tree->left=newNode(value);
 		else
-			tree->right = &new;
+			insert(tree->left,value);
 	}
-	else if (tree->value>value)
-		insert(tree->left,value);
-	else if (tree->value<value)
-		insert(tree->left,value);
+	else if (tree->value<=value)
+	{
+		if (tree->right==NULL)
+			tree->right=newNode(value);
+		else
+			insert(tree->right,value);
+	}	
 }
