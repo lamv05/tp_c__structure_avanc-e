@@ -18,7 +18,7 @@ void deleteNode(t_listnode* node,int value);
 
 void searchNode(t_listnode* node,int value);
 
-void free_all(t_listnode* node);
+void free_list(t_listnode* node);
 
 typedef struct TreeNode
 {
@@ -29,4 +29,8 @@ typedef struct TreeNode
 
 t_treeNode* newNode(int value);
 
-void insert(t_treeNode* tree, int value);
+void insert(t_treeNode* tree_root, int value);
+
+void inorder(t_treeNode* tree_root);
+
+void free_tree(t_treeNode* tree_root);

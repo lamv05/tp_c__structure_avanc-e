@@ -14,9 +14,20 @@ int main()
 	insertBeginning(&racine,0);
 	//searchNode(&racine,3);
 	//insertMiddle(& racine,13,4);
-	deleteNode(&racine,6);
+	//deleteNode(&racine,3);
 	printList(&racine);
-	//free_all(&racine);
+	free_list(&racine);
+	
+	/*t_treeNode* tree_root = newNode(101);
+	insert(tree_root,8);
+	insert(tree_root,14);
+	insert(tree_root,129);
+	insert(tree_root,4);
+	insert(tree_root,99);
+	insert(tree_root,13);
+	insert(tree_root,55); 
+	inorder(tree_root);
+	free_tree(tree_root); */
 	return 0;
 }
 
@@ -63,17 +74,19 @@ void insertMiddle(t_listnode* node,int value,int position)
 		insertMiddle(node->next,value,position-1);
 }
 
-
+//ne marche pas pour le 1er element et il y a un soucis avec le free -> exemple initialisé statiquement
 void deleteNode(t_listnode* node,int value)
 {
-	if ((node->next)->value==value)
+	if (node->next!=NULL)
 	{
-		t_listnode* to_free =node->next ;
-		node->next=(node->next)->next;
-		//free(to_free);
-	}
-	else if (node->next!=NULL)
+		if ((node->next)->value==value)
+		{
+			t_listnode* to_free =node->next ;
+			node->next=(node->next)->next;
+			//free(to_free);
+		}
 		deleteNode(node->next,value);
+	}
 }
 
 void searchNode(t_listnode* node,int value)
@@ -86,38 +99,67 @@ void searchNode(t_listnode* node,int value)
 	}
 }
 
-void free_all(t_listnode* node)
+//free(): invalid size -> exemple initialisé statiquement
+void free_list(t_listnode* node)
 {
-	t_listnode* temp=node->next;
-	free(node);
-	free_all(temp);
+	if (node->next!=NULL)
+	{
+		free_list(node->next);
+		free(node);
+	}
 }
 
 
 
 t_treeNode* newNode(int value)
 {
-	newnode=(struct TreeNode*)malloc(sizeof(struct TreeNode));
-	newnode->value=value;
-	newnode->left =NULL
-	newnode->right =NULL
-	return &newNode;
+	t_treeNode* node=(struct TreeNode*)malloc(sizeof(struct TreeNode));
+	node->value=value;
+	node->left =NULL;
+	node->right =NULL;
+	return node;
 }
 
-void insert(t_treeNode* tree, int value)
+//la racine doit etre initialisée
+void insert(t_treeNode* tree_root, int value)
 {
-	if (tree->value>value)
+	if (tree_root->value>value)
 	{
-		if (tree->left==NULL)
-			tree->left=newNode(value);
+		if (tree_root->left==NULL)
+			tree_root->left=newNode(value);
 		else
-			insert(tree->left,value);
+			insert(tree_root->left,value);
 	}
-	else if (tree->value<=value)
+	else if (tree_root->value<=value)
 	{
-		if (tree->right==NULL)
-			tree->right=newNode(value);
+		if (tree_root->right==NULL)
+			tree_root->right=newNode(value);
 		else
-			insert(tree->right,value);
+			insert(tree_root->right,value);
 	}	
+}
+
+void inorder(t_treeNode* node)
+{
+	if (node->left!=NULL)
+	{
+		inorder(node->left);
+		printf("%d\n",node->value);
+		if (node->right!=NULL)
+			inorder(node->right);
+	}
+	else if (node->left==NULL)
+		printf("%d\n",node->value);
+	
+}
+
+void free_tree(t_treeNode* tree_root)
+{
+	if(tree_root!=NULL)
+	{
+		free_tree(tree_root->left);
+		free_tree(tree_root->right);
+		free(tree_root);
+	}
+	
 }
