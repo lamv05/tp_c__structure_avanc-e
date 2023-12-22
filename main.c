@@ -4,19 +4,20 @@
 
 int main()
 {
-	t_listnode node4 = {5,NULL};
+	/*t_listnode node4 = {5,NULL};
 	t_listnode node3 = {4,&node4};
 	t_listnode node2 = {3,&node3};
 	t_listnode node1 = {2,&node2};
-	t_listnode racine = {1,&node1};
+	t_listnode racine = {1,&node1};*/
 	
-	insertEnd(&racine,6);
-	insertBeginning(&racine,0);
-	//searchNode(&racine,3);
-	//insertMiddle(& racine,13,4);
-	//deleteNode(&racine,3);
-	printList(&racine);
-	free_list(&racine);
+	t_listnode* racine=newList(1);
+	insertEnd(racine,6);
+	insertBeginning(racine,0);
+	//searchNode(racine,3);
+	insertMiddle(racine,13,0);
+	deleteNode(racine,1);
+	printList(racine);
+	free_list(racine);
 	
 	/*t_treeNode* tree_root = newNode(101);
 	insert(tree_root,8);
@@ -83,7 +84,7 @@ void deleteNode(t_listnode* node,int value)
 		{
 			t_listnode* to_free =node->next ;
 			node->next=(node->next)->next;
-			//free(to_free);
+			free(to_free);
 		}
 		deleteNode(node->next,value);
 	}
@@ -109,6 +110,13 @@ void free_list(t_listnode* node)
 	}
 }
 
+t_listnode* newList(int value)
+{
+	t_listnode* node =(struct listnode_*)malloc(sizeof(struct listnode_));
+	node->value=value;
+	node->next=NULL;
+	return node;
+}	
 
 
 t_treeNode* newNode(int value)

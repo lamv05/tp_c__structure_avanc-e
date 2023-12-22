@@ -34,3 +34,5 @@ void insert(t_treeNode* tree_root, int value);
 void inorder(t_treeNode* tree_root);
 
 void free_tree(t_treeNode* tree_root);
+
+t_listnode* newList(int value);
