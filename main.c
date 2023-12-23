@@ -14,8 +14,8 @@ int main()
 	insertEnd(racine,6);
 	insertBeginning(racine,0);
 	//searchNode(racine,3);
-	insertMiddle(racine,13,0);
-	deleteNode(racine,1);
+	insertMiddle(racine,13,1);
+	//deleteNode(racine,1);
 	printList(racine);
 	free_list(racine);
 	
@@ -69,7 +69,7 @@ void insertMiddle(t_listnode* node,int value,int position)
 		t_listnode* temp = node->next;
 		node->next =(struct listnode_*)malloc(sizeof(struct listnode_));
 		node->value=value;
-		node->next=temp;
+		(node->next)->next=temp;
 	}
 	else
 		insertMiddle(node->next,value,position-1);
